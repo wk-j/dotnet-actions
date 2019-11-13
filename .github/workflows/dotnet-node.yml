@@ -1,4 +1,4 @@
-name: .NET + Node
+name: .NET
 
 on: [push]
 
@@ -30,7 +30,7 @@ jobs:
           dotnet-version: 3.0.100
 
       - name: Build with dotnet
-        run: dotnet build src/MyWeb --configuration Release --output X
+        run: dotnet publish src/MyWeb --configuration Release --output X
 
       - name: check
         run: |
