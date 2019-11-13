@@ -43,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: wwwroot
-          path: src/MyWeb
+          path: src/MyWeb/wwwroot
 
       - name: Build with dotnet
         run: dotnet publish src/MyWeb --configuration Release --output X
