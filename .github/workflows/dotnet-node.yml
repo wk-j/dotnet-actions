@@ -32,6 +32,7 @@ jobs:
       - name: Build with dotnet
         run: dotnet publish src/MyWeb --configuration Release --output X
 
-      - name: check
+      - name: Check wwwroot
         run: |
           ls -al X
+          ls -al X/wwwroot

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -46,6 +46,7 @@ jobs:
       - name: Build with dotnet
         run: dotnet publish src/MyWeb --configuration Release --output X
 
-      - name: Check
+      - name: Check wwwroot
         run: |
           ls -al X
+          ls -al X/wwwroot
