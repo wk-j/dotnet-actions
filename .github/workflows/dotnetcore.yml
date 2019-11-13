@@ -21,6 +21,11 @@ jobs:
           npm --prefix client run build --if-present
         env:
           CI: true
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v1
+        with:
+          name: wwwroot
+          path: src/MyWeb/wwwroot
 
   build-server:
     runs-on: ubuntu-latest
@@ -30,5 +35,10 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.0.100
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v1
+        with:
+          name: wwroot
+          path: src/MyWeb/wwwroot
       - name: Build with dotnet
         run: dotnet build src/MyWeb --configuration Release
