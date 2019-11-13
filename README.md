@@ -1,6 +1,6 @@
 ## .NET
 
-[![Actions](https://github.com/wk-j/dotnet-actions/workflows/.NET Core/badge.svg)](https://github.com/wk-j/dotnet-actions/actions)
+[![Actions](https://github.com/wk-j/dotnet-actions/workflows/.NET%20Core/badge.svg)](https://github.com/wk-j/dotnet-actions/actions)
 
 
 ```bash
