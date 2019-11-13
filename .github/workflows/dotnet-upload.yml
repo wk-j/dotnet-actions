@@ -21,6 +21,7 @@ jobs:
           npm --prefix client run build --if-present
         env:
           CI: true
+
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v1
         with:
@@ -41,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: wwwroot
+          path: src/MyWeb
 
       - name: Build with dotnet
         run: dotnet publish src/MyWeb --configuration Release --output X
