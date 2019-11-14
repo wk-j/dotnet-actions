@@ -24,6 +24,7 @@ jobs:
       - name: Zip
         run: |
           zip -r .publish/MyWeb-$(cat VERSION).zip .publish/MyWeb
+          ls -al .publish
 
       - name: Create release
         id: create_release
