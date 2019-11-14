@@ -13,12 +13,12 @@ jobs:
         run: echo "Hello $ZIP"
         env:
           VERSION: $(date +%y.%m.%d%H%M)"
-          ZIP: MyWeb-${VERSION}.zip"
+          ZIP: MyWeb-$VERSION.zip"
 
       - name:  Echo
         run: |
-          echo "Zip = $ZIP ${ZIP}"
-          echo "Version = $VERSION ${VERSION}"
+          echo "Zip = $ZIP"
+          echo "Version = $VERSION"
 
       - name: Build & publish
         run: |
