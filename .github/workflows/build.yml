@@ -15,6 +15,11 @@ jobs:
           VERSION: $(date +%y.%m.%d%H%M)"
           ZIP: MyWeb-${VERSION}.zip"
 
+      - name:  Echo
+        run: |
+          echo "Zip = $ZIP ${ZIP}"
+          echo "Version = $VERSION ${VERSION}"
+
       - name: Build & publish
         run: |
           dotnet publish src/MyWeb --output .publish/MyWeb
