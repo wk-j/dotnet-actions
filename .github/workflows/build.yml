@@ -11,7 +11,7 @@ jobs:
 
       - name: Set version
         run: |
-          cat $(date +%y.%m.%d%H%M) > VERSION
+          echo "$(date +%y.%m.%d%H%M)" > VERSION
 
       - name:  Echo
         run: |
