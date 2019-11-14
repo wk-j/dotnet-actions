@@ -1,0 +1,45 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - continue-on-error: false
+
+      - name: Checkout files
+        uses: actions/checkout@v1
+
+      - name: Set version
+        run: |
+          export VERSION=$(date +%y.%m.%d%H%M)
+
+      - name: Build & publish
+        run: |
+          dotnet publish src/MyWeb --output .publish/MyWeb /p:Version=$VERSION
+
+      - name: Zip
+        run: |
+          zip -r .publish/MyWeb-$VERSION.zip .publish/MyWeb
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v.$VERSION
+          release_name: v.$VERSION
+          draft: false
+          prerelease: false
+
+      - name: Upload assets
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: .publish/MyWeb-$VERSION.zip
+          asset_name: MyWeb-$VERSION.zip
+          asset_content_type: application/zip
