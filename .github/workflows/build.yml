@@ -31,9 +31,10 @@ jobs:
         uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: v.$(cat VERSION)
         with:
-          tag_name: v.$(cat VERSION)
-          release_name: v.$(cat VERSION)
+          tag_name: $VERSION
+          release_name: $VERSION
           draft: false
           prerelease: false
 
@@ -41,8 +42,9 @@ jobs:
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: v.$(cat VERSION)
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .publish/MyWeb-$(cat VERSION).zip
-          asset_name: MyWeb-$(cat VERSION).zip
+          asset_path: .publish/MyWeb-$VERSION.zip
+          asset_name: MyWeb-$VERSION.zip
           asset_content_type: application/zip
