@@ -16,7 +16,7 @@ jobs:
 
       - name: Build & publish
         run: |
-          dotnet publish src/MyWeb --output .publish/MyWeb /p:Version=$VERSION
+          dotnet publish src/MyWeb --output .publish/MyWeb
 
       - name: Zip
         run: |
