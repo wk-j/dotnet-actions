@@ -10,29 +10,28 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Set version
+        id: version
         run: |
           echo "$(date +%y.%m.%d%H%M)" > VERSION
+          echo ::set-output name=version::$(cat VERSION)
 
       - name: Build & publish
         run: |
           dotnet publish src/MyWeb --output .publish/MyWeb
 
       - name: Zip
-        id: zip
         run: |
           zip -r .publish/MyWeb-$(cat VERSION).zip .publish/MyWeb
           ls -al .publish
-          echo ::set-output name=version::$(cat VERSION)
 
       - name: Create release
-        id: create_release
+        id: create-release
         uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: $(cat VERSION)
         with:
-          tag_name: v.$VERSION
-          release_name: v.$VERSION
+          tag_name: v.${{ steps.version.outputs.version }}
+          release_name: v.${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
 
@@ -40,9 +39,8 @@ jobs:
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: $(cat VERSION)
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .publish/MyWeb-${{ steps.zip.outputs.version }}.zip
-          asset_name: MyWeb-${{ steps.zip.outputs.version }}.zip
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: .publish/MyWeb-${{ steps.version.outputs.version }}.zip
+          asset_name: MyWeb-${{ steps.version.outputs.version }}.zip
           asset_content_type: application/zip
