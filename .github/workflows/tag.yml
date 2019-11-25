@@ -1,0 +1,55 @@
+name: Tag
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          npm --prefix client ci
+          npm --prefix client run build --if-present
+        env:
+          CI: true
+
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v1
+        with:
+          name: wwwroot
+          path: src/MyWeb/wwwroot
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.0.100
+
+      - name: Get the version
+        id: get-version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Build
+        run: |
+          dotnet publish src/MyWeb --output .publish/W
+          zip -r .publish/MyWeb.zip .publish/W
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: .publish/MyWeb.zip
+          asset_name: MyWeb.${{ steps.get-version.outputs.VERSION }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
