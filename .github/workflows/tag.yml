@@ -42,8 +42,8 @@ jobs:
 
       - name: Build
         run: |
-          dotnet publish src/MyWeb --output .publish/W
-          zip -r .publish/MyWeb.zip .publish/W
+          dotnet publish src/MyWeb --output .publish/MyWeb
+          (cd .publish; zip -r MyWeb.zip MyWeb)
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
